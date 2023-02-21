@@ -76,7 +76,7 @@ def cocktailsort(arr):
 
 # Generate random arrays to sort
 
-sizes = [10000, 50000, 100000, 200000, 500000]
+sizes = [10000, 50000, 100000, 200000, 700000]
 arrays = {}
 for size in sizes:
     arrays[size] = [random.randint(1, size) for _ in range(size)]
