@@ -76,7 +76,7 @@ def cocktailsort(arr):
 
 # Generate random arrays to sort
 
-sizes = [10000, 50000, 100000, 200000, 700000]
+sizes = [100, 500, 1000, 2000, 1200000]
 arrays = {}
 for size in sizes:
     arrays[size] = [random.randint(1, size) for _ in range(size)]
@@ -86,38 +86,38 @@ for size in sizes:
 quicksort_times = []
 mergesort_times = []
 heapsort_times = []
-cocktailsort_times = []
+# cocktailsort_times = []
 
 for size in sizes:
     array = arrays[size]
     start_time = time.time()
-    quicksort(array)
+    quicksort(array.copy())
     end_time = time.time()
     quicksort_times.append(end_time - start_time)
 
     array = arrays[size]
     start_time = time.time()
-    mergesort(array)
+    mergesort(array.copy())
     end_time = time.time()
     mergesort_times.append(end_time - start_time)
 
     array = arrays[size]
     start_time = time.time()
-    heapsort(array)
+    heapsort(array.copy())
     end_time = time.time()
     heapsort_times.append(end_time - start_time)
 
-    array = arrays[size]
-    start_time = time.time()
-    cocktailsort(array)
-    end_time = time.time()
-    cocktailsort_times.append(end_time - start_time)
+    # array = arrays[size]
+    # start_time = time.time()
+    # cocktailsort(array.copy())
+    # end_time = time.time()
+    # cocktailsort_times.append(end_time - start_time)
 
 
 plt.plot(sizes, quicksort_times, label="Quicksort")
 plt.plot(sizes, mergesort_times, label="Mergesort")
 plt.plot(sizes, heapsort_times, label="Heapsort")
-plt.plot(sizes, cocktailsort_times, label="Cocktailsort")
+# plt.plot(sizes, cocktailsort_times, label="Cocktailsort")
 plt.xlabel("Array Size")
 plt.ylabel("Runtime (Seconds)")
 plt.legend()
