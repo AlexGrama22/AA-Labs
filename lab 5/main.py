@@ -69,7 +69,14 @@ def draw_graph_tree(graph, title):
     plt.show()
 
 def main():
-    num_nodes = [5, 10, 15, 20, 25]
+    # Prompt the user to enter the number of vertices
+    num_nodes = input("Please enter the number of vertices: ")
+    try:
+        num_nodes = [int(num_nodes)]
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+        return
+
     dijkstra_times = []
     floyd_times = []
 
@@ -85,7 +92,7 @@ def main():
 
     plot_comparison(num_nodes, dijkstra_times, floyd_times)
 
-    sample_graph = generate_random_graph(10)
+    sample_graph = generate_random_graph(num_nodes[0])
     draw_graph_tree(sample_graph, "Sample Graph for Dijkstra and Floyd Algorithms")
 
     dijkstra_tree = dijkstra(sample_graph, 0)
@@ -101,5 +108,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
