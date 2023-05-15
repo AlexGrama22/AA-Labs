@@ -22,12 +22,16 @@ def chudnovsky_algorithm(n):
     return C / S
 
 
-# Algorithm 2: Leibniz Formula
-def leibniz_formula(n):
-    pi = 0
-    for i in range(n):
-        pi += ((-1) ** i) / (2 * i + 1)
-    return 4 * pi
+# Algorithm 2: Nilakantha Series
+def nilakantha_series(n):
+    pi = mp.mpf(3)
+    sign = mp.mpf(-1)
+    term = mp.mpf(2)
+    for i in range(1, n):
+        pi += sign * (4 / (term * (term + 1) * (term + 2)))
+        sign *= -1
+        term += 2
+    return pi
 
 
 # Algorithm 3: Bailey–Borwein–Plouffe (BBP) Formula
@@ -40,22 +44,29 @@ def bbp_formula(n):
 
 
 def analyze_algorithms():
-    n = int(input("Enter the number of decimal places (n): "))
-    algorithms = [chudnovsky_algorithm, leibniz_formula, bbp_formula]
-    timings = []
-    for algorithm in algorithms:
-        start_time = time.time()
-        pi = algorithm(n)
-        end_time = time.time()
-        timings.append(end_time - start_time)
-        print(f"{algorithm.__name__}: {pi}, time: {end_time - start_time:.6f} seconds")
+    decimal_places = [100, 1000, 10000, 100000]
+    algorithms = [chudnovsky_algorithm, nilakantha_series, bbp_formula]
+    timings = [[] for _ in range(len(algorithms))]  # List of lists to store timings for each algorithm
 
-    plt.bar(np.arange(len(algorithms)), timings, align='center', alpha=0.5)
-    plt.xticks(np.arange(len(algorithms)), [algorithm.__name__ for algorithm in algorithms])
+    for n in decimal_places:
+        for i, algorithm in enumerate(algorithms):
+            start_time = time.time()
+            pi = algorithm(n)
+            end_time = time.time()
+            timings[i].append(end_time - start_time)
+            print(f"{algorithm.__name__} ({n} decimal places): {pi}, time: {end_time - start_time:.6f} seconds")
+
+    # Plotting the results on the same graph
+    plt.figure()
+    for i, algorithm in enumerate(algorithms):
+        plt.plot(decimal_places, timings[i], marker='o', label=algorithm.__name__)
+
+    plt.xlabel('Decimal Places')
     plt.ylabel('Execution Time (seconds)')
     plt.title('Performance Comparison of Pi Calculation Algorithms')
+    plt.legend()
     plt.show()
 
 
-if __name__ == '__main__':s
+if __name__ == '__main__':
     analyze_algorithms()
